@@ -2,30 +2,31 @@ import os
 from skimage import io, transform
 from skimage import img_as_bool
 import numpy as np
-import matplotlib.pyplot as plt
 import random
 from PIL import Image
-import copy
-import time
 import torch
-import torch.optim as optim
-from torch.optim import lr_scheduler
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms, utils
 import torchvision.transforms.functional as TF
-import torch.nn as nn
-import torch.nn.functional as F
 from torch.utils.data.sampler import SubsetRandomSampler
-from visdom import Visdom
+
 
 
 class PersonDataset(Dataset):
+    """ Peerson Dataset. """
 
     def __init__(self, dataset_dir ):
         """
-
         Args:
-            dataset_dir : path to the dataset
+            dataset_dir(str) : path to the dataset(root dir) and arranged as follows
+                             ├── Dataset
+                             │   ├── sample.png
+                             │      ├──images
+                             │        ├── sample.png
+                             │      ├── masks
+                             │        ├── id[0].png
+                                      └── id[i].png
+
             transform (callable, optional): Optional transform to be applied
                                             on a sample.
         """
@@ -36,13 +37,17 @@ class PersonDataset(Dataset):
 
 
     def __len__(self):
+        """To return the length of dataset"""
         return len(self.list_dir)
 
     def augment(image,masks):
-        '''
-        Applyin the same augmentation to
-        image and its corresponding masks_list
-        '''
+        """
+        Applying the same augmentation to
+        image and its corresponding mask
+        Args:
+            image(PIL Image): resized image(new_width,new_height)
+            masks(PIL Image): resized mask(new_width,new_height)
+        """
 
         # Random horizontal flipping
         if random.random() > 0.5:
@@ -53,18 +58,19 @@ class PersonDataset(Dataset):
         if random.random() > 0.5:
             image = TF.vflip(image)
             masks = TF.vflip(masks)
-        return image,masks    
+        return image,masks
 
     def transform(self,image,masks):
+        """Applying a set of  transformations as a datapreprocessing task"""
         # convert to PIL Image.
         PIL_convert = transforms.ToPILImage()
         image = PIL_convert(image)
         masks = PIL_convert(masks.astype(np.int32))
-        # resize
+        # resize the image and masks
         resize = transforms.Resize(size=(512,512))
         image = resize(image)
         masks = resize(masks)
-
+        # augmentation
         if aug is True:
             augment(image,masks)
         else:
@@ -76,7 +82,8 @@ class PersonDataset(Dataset):
         return image,masks
 
     def __getitem__(self,image_id):
-
+        """
+        
         # read the image
         image_path  = (os.path.join(self.dataset_dir,self.list_dir[image_id],"images/{}.png".format(self.list_dir[image_id])))
         image = io.imread(image_path)
