@@ -38,6 +38,22 @@ class PersonDataset(Dataset):
     def __len__(self):
         return len(self.list_dir)
 
+    def augment(image,masks):
+        '''
+        Applyin the same augmentation to
+        image and its corresponding masks_list
+        '''
+
+        # Random horizontal flipping
+        if random.random() > 0.5:
+            image = TF.hflip(image)
+            masks = TF.hflip(masks)
+
+        # Random vertical flipping
+        if random.random() > 0.5:
+            image = TF.vflip(image)
+            masks = TF.vflip(masks)
+
 
     def transform(self,image,masks):
         # convert to PIL Image.
@@ -49,17 +65,10 @@ class PersonDataset(Dataset):
         image = resize(image)
         masks = resize(masks)
 
-        '''
-        # Random horizontal flipping
-        if random.random() > 0.5:
-            image = TF.hflip(image)
-            masks = TF.hflip(masks)
-
-        # Random vertical flipping
-        if random.random() > 0.5:
-            image = TF.vflip(image)
-            masks = TF.vflip(masks)
-        '''
+        if aug is True:
+            augment(image,masks)
+        else:
+            pass
         # Convert to Tensor
         image = TF.to_tensor(image)
         masks = TF.to_tensor(masks)
