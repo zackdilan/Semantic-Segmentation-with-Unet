@@ -53,7 +53,7 @@ class PersonDataset(Dataset):
         if random.random() > 0.5:
             image = TF.vflip(image)
             masks = TF.vflip(masks)
-
+        return image,masks    
 
     def transform(self,image,masks):
         # convert to PIL Image.
