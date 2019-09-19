@@ -29,7 +29,7 @@ def read_flags():
     parser.add_argument(
     "--dataset_dir",
     default = '/home/robin/Thesis/Dataset/ds12'
-    help = "path_to/root_directory/Dataset")
+    help="path/to/root_directory/Dataset")
 
     parser.add_argument(
     "--log_dir",
