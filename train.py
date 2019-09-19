@@ -28,27 +28,27 @@ def read_flags():
 
     parser.add_argument(
     "--dataset_dir",
-    default = '/home/robin/Thesis/Dataset/ds12'
+    default = '/home/robin/Thesis/Dataset/ds12',
     help="path/to/root_directory/Dataset")
 
     parser.add_argument(
     "--log_dir",
-    default = '/home/robin/repos/logs/'
+    default = '/home/robin/repos/logs/',
     help = "path_to/log_directory/")
 
     parser.add_argument(
-    "--train_batch_size"
-    default = 1
+    "--train_batch_size",
+    default = 1,
     help = "define the training batch size")
 
     parser.add_argument(
-    "--val_batch_size"
-    default = 1
+    "--val_batch_size",
+    default = 1,
     help = "define the validation batch size")
 
     parser.add_argument(
-    "--epochs"
-    default = 100
+    "--epochs",
+    default = 100,
     help = "define the number of epochs for training")
 
     return parser.parse_args()
