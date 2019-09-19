@@ -64,7 +64,8 @@ def train_val(dataloaders,model,criterion,optimizer,num_epochs,log_dir):
                 model.eval()   ## set model in validation mode
             # define metric variables
             running_loss = 0.0
-            total_train,correct_train  = 0
+            total_train = 0
+            correct_train  = 0
             #iterate over the data
             for index,sampled_batch in enumerate(dataloaders[phase]):
                 inputs = sampled_batch["image"].to(device)  # N,C,H,W
