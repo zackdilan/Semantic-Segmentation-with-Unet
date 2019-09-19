@@ -83,7 +83,14 @@ class PersonDataset(Dataset):
 
     def __getitem__(self,image_id):
         """
-        
+        Function to read the image and mask
+        and return a sample of dataset when neededself.
+        Args:
+        image_id: image index to iterate over the dataset samples
+        Returns:
+        sample(dict): a sample of the dataset
+
+        """
         # read the image
         image_path  = (os.path.join(self.dataset_dir,self.list_dir[image_id],"images/{}.png".format(self.list_dir[image_id])))
         image = io.imread(image_path)
@@ -96,7 +103,7 @@ class PersonDataset(Dataset):
                 m = io.imread(os.path.join(mask_dir,f)).astype(np.bool)
                 m = m[:,:,0]
                 masks_list.append(m)
-
+                #combine all the masks corresponding of an invidual sample image into single binary mask
                 if len(masks_list) != 1:
                     masks = np.logical_or(masks,masks_list[i])
                 else:
@@ -107,6 +114,18 @@ class PersonDataset(Dataset):
 
         return(sample)
 def get_dataloaders(data_dir,train_batch_size,val_batch_size):
+    """
+    Function to create train  and validation dataloaders
+    Pytorch SUBSETRANDOMSAMPLER to create the train-val split
+
+    Args:
+    data_dir(str):root directory of the dataset_dir
+    train_batch_size(int):Mini batch size for training
+    val_batch_size(int):Mini batch size for validation
+
+    Returns:
+    dataloaders(dict): Dictionary of dataloaders
+    """
     # using pytorch SUBSETRANDOMSAMPLER
 
     #data directory
@@ -117,6 +136,7 @@ def get_dataloaders(data_dir,train_batch_size,val_batch_size):
     # dataloader for train and validation
     validation_split = 0.2
     shuffle_dataset = True
+    #random seed to keep the train-val split constant for inference purpose
     random_seed= 42
     # create indices for training and validation splits.
     dataset_size  = len(transformed_dataset)
