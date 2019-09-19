@@ -92,7 +92,7 @@ def main(FLAGS):
     exp_lr_scheduler = lr_scheduler.StepLR(optimizer,step_size = 10,gamma = 0.1)
     plotter = VisdomLinePlotter(env_name='Unet Train')
     # uncomment for leraning rate schgeduler..
-    train_val(dataloaders,model,criterion,optimizer,num_epochs,log_dir)
+    train_val(dataloaders,model,criterion,optimizer,num_epochs,log_dir,device)
 
 if __name__ == '__main__':
     flags = read_flags()

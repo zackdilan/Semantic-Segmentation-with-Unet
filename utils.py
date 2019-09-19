@@ -39,7 +39,7 @@ class VisdomLinePlotter(object):
             self.viz.line(X=np.array([x]), Y=np.array([y]), env=self.env, win=self.plots[var_name], name=split_name, update = 'append')
 
 
-def train_val(dataloaders,model,criterion,optimizer,num_epochs,log_dir):
+def train_val(dataloaders,model,criterion,optimizer,num_epochs,log_dir,device):
     """
     training and validation function phase for each epoch
     Args:
