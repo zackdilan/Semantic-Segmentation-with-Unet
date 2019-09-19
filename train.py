@@ -28,12 +28,12 @@ def read_flags():
 
     parser.add_argument(
     "--dataset_dir",
-    default = '/home/chacko/data/supervisely_person_data'
+    default = '/home/robin/Thesis/Dataset/ds12'
     help = "path_to/root_directory/Dataset")
 
     parser.add_argument(
     "--log_dir",
-    default = '/home/chacko/logs'
+    default = '/home/robin/repos/logs'
     help = "path_to/log_directory/")
 
     parser.add_argument(
