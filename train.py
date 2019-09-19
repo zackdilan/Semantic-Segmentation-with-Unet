@@ -37,6 +37,11 @@ def read_flags():
     help = "path_to/log_directory/")
 
     parser.add_argument(
+    "--aug",
+    default = False,
+    help = "flag to define whether augmentation is needed or not")
+
+    parser.add_argument(
     "--train_batch_size",
     default = 1,
     help = "define the training batch size")
@@ -64,10 +69,11 @@ def main(FLAGS):
     # Hyper and other parameters
     train_batch_size = FLAGS.train_batch_size
     val_batch_size   = FLAGS.val_batch_size
+    aug_flag = FLAGS.aug
     num_epochs = FLAGS.epochs
     num_classes = 2
     # get the train and validation dataloaders
-    dataloaders = get_dataloaders(data_dir,train_batch_size,val_batch_size)
+    dataloaders = get_dataloaders(data_dir,train_batch_size,val_batch_size,aug_flag)
     model = Unet(3,num_classes)
 
     # Uncomment to run traiing on Multiple GPUs
@@ -89,5 +95,5 @@ def main(FLAGS):
     train_val(dataloaders,model,criterion,optimizer,num_epochs,log_dir)
 
 if __name__ == '__main__':
-        flags = read_flags
-        main(flags)
+    flags = read_flags()
+    main(flags)
