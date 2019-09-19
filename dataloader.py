@@ -15,7 +15,7 @@ from torch.utils.data.sampler import SubsetRandomSampler
 class PersonDataset(Dataset):
     """ Peerson Dataset. """
 
-    def __init__(self, dataset_dir ):
+    def __init__(self, dataset_dir,aug ):
         """
         Args:
             dataset_dir(str) : path to the dataset(root dir) and arranged as follows
@@ -26,13 +26,13 @@ class PersonDataset(Dataset):
                              │      ├── masks
                              │        ├── id[0].png
                                       └── id[i].png
-
+            aug(boolean): variable to determine the need of augmentation
             transform (callable, optional): Optional transform to be applied
                                             on a sample.
         """
         self.dataset_dir = dataset_dir
         self.list_dir = os.listdir(self.dataset_dir)
-
+        self.aug = aug
 
 
 
@@ -60,7 +60,7 @@ class PersonDataset(Dataset):
             masks = TF.vflip(masks)
         return image,masks
 
-    def transform(self,image,masks):
+    def transform(self,image,masks,aug):
         """Applying a set of  transformations as a datapreprocessing task"""
         # convert to PIL Image.
         PIL_convert = transforms.ToPILImage()
@@ -109,11 +109,11 @@ class PersonDataset(Dataset):
                 else:
                     masks = masks_list[i]
         # do the transforms..
-        trans_img,trans_masks = self.transform(image,masks)
+        trans_img,trans_masks = self.transform(image,masks,self.aug)
         sample = {"image":trans_img,"masks":trans_masks}
 
         return(sample)
-def get_dataloaders(data_dir,train_batch_size,val_batch_size):
+def get_dataloaders(data_dir,train_batch_size,val_batch_size,aug_flag):
     """
     Function to create train  and validation dataloaders
     Pytorch SUBSETRANDOMSAMPLER to create the train-val split
@@ -126,13 +126,8 @@ def get_dataloaders(data_dir,train_batch_size,val_batch_size):
     Returns:
     dataloaders(dict): Dictionary of dataloaders
     """
-    # using pytorch SUBSETRANDOMSAMPLER
-
-    #data directory
-    #data_dir =  data_dir
-
     # Create the dataset object.
-    transformed_dataset  = PersonDataset(data_dir)
+    transformed_dataset  = PersonDataset(data_dir,False)
     # dataloader for train and validation
     validation_split = 0.2
     shuffle_dataset = True
@@ -150,9 +145,9 @@ def get_dataloaders(data_dir,train_batch_size,val_batch_size):
     # create dataloaders...
     train_sampler = SubsetRandomSampler(train_indices)
     val_sampler   = SubsetRandomSampler(val_indices)
-
-    train_loader  = DataLoader(transformed_dataset, batch_size=train_batch_size, shuffle=False, num_workers=0,sampler = train_sampler)
-    val_loader  = DataLoader(transformed_dataset, batch_size=val_batch_size, shuffle=False, num_workers=0,sampler = val_sampler)
+    train_aug,val_aug = aug_flag,False
+    train_loader  = DataLoader(PersonDataset(data_dir,train_aug), batch_size=train_batch_size, shuffle=False, num_workers=0,sampler = train_sampler)
+    val_loader  = DataLoader(PersonDataset(data_dir,val_aug), batch_size=val_batch_size, shuffle=False, num_workers=0,sampler = val_sampler)
 
     # dictionary for data loaders..
     dataloaders = {"train" :train_loader,
