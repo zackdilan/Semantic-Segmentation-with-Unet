@@ -107,7 +107,7 @@ def train_val(dataloaders,model,criterion,optimizer,num_epochs,log_dir):
                             "model_state_dict":model.state_dict(),
                             "optimizer_state_dict":optimizer.state_dict(),
                             "loss":epoch_loss,
-                        },os.path.join('log_dir','/train_exp-epoch{}.pth'.format(epoch))
+                        },os.path.join(log_dir,'train_exp-epoch{}.pth'.format(epoch))
             else:
                 pass
 
