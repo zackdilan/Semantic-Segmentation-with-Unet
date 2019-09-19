@@ -39,7 +39,7 @@ class VisdomLinePlotter(object):
             self.viz.line(X=np.array([x]), Y=np.array([y]), env=self.env, win=self.plots[var_name], name=split_name, update = 'append')
 
 
-def train_val(dataloaders,model,criterion,optimizer,num_epochs):
+def train_val(dataloaders,model,criterion,optimizer,num_epochs,log_dir):
     """
     training and validation function phase for each epoch
     Args:
@@ -107,7 +107,7 @@ def train_val(dataloaders,model,criterion,optimizer,num_epochs):
                             "model_state_dict":model.state_dict(),
                             "optimizer_state_dict":optimizer.state_dict(),
                             "loss":epoch_loss,
-                        },'/home/chacko/data/logs/Exp_3/train_exp3-epoch{}.pth'.format(epoch))
+                        },os.path.join('log_dir','/train_exp-epoch{}.pth'.format(epoch))
             else:
                 pass
 
