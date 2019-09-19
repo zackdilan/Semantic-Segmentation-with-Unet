@@ -33,7 +33,7 @@ def read_flags():
 
     parser.add_argument(
     "--log_dir",
-    default = '/home/robin/repos/logs'
+    default = '/home/robin/repos/logs/'
     help = "path_to/log_directory/")
 
     parser.add_argument(
