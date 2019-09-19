@@ -88,6 +88,6 @@ def main(FLAGS):
     # uncomment for leraning rate schgeduler..
     train_val(dataloaders,model,criterion,optimizer,num_epochs,log_dir)
 
-    if __name__ == '__main__':
+if __name__ == '__main__':
         flags = read_flags
         main(flags)
