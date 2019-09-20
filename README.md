@@ -21,3 +21,7 @@ dataset_dir(str) : path to the dataset(root dir) and arranged as follows.
 
 ## Unet Model Evaluation.
 jupyter notebook(Unet_Evaluation.ipynb) for data loader  and model prediction is provided.
+
+## Usage
+python train.py  
+If you want help - python train.py --help
