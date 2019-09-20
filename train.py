@@ -18,7 +18,7 @@ from torch.utils.data.sampler import SubsetRandomSampler
 from visdom import Visdom
 
 from dataloader import get_dataloaders
-from network_1024 import Unet
+from model import Unet
 from utils import VisdomLinePlotter,train_val
 
 
