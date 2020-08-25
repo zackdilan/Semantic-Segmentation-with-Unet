@@ -25,3 +25,9 @@ jupyter notebook(Unet_Evaluation.ipynb) for data loader  and model prediction is
 ## Usage
 python train.py  
 If you want help - python train.py --help
+
+## UNET + Background Edit
+ A new feature has added with the existing Segmentation Model. We use the UNET model to transfer the input image colorful background to Grey . Since our model is trained only for person classes, demos are limited to input images with at least one person. I have provided a demo notebook to guide you to achieve this. Here are some demo samples.
+![title](demo_images/demo.png).
+
+Before you start, pleae put the pretrained model in the main folder. Please contact me for issues and model : [email id](chacko.zackdilan@gmail.com).
